@@ -1,0 +1,467 @@
+neo4j:
+  default:
+    uri: "bolt://114.213.232.140:7687"
+    username: "neo4j"
+    password: "DMiChao"
+
+  kdzn:
+    uri: "bolt://114.213.232.140:37687"
+    username: "neo4j"
+    password: "123456"
+
+  new_kdzn:
+    uri: "bolt://114.213.232.140:17688"
+    username: "neo4j"
+    password: "kdzntest"
+
+KO_database:
+  host: '114.213.234.67'
+  user: 'koroot'
+  password: 'DMiC-4092'
+  database: 'db_hp'
+  charset: 'utf8'
+
+#ko4csg_hci中间处理模型选择
+model: qwen2   # 可选值：qwen2, gpt_multiQA, gpt_predict, kimi。针对ko4csg_hci_localglm。默认为local
+
+
+# 中间处理流程使用模型配置
+small_models:
+  gpt:
+    model_name: "gpt-3.5-turbo"
+    temperature: 0.0
+    api_key: "sk-SxFJyauOcVOO1Lxu6WG6D0Xl2sUlP3OuuXa3LftB2wFOvlsg"
+    base_url: "https://api.chatanywhere.tech/v1"
+  qwen:
+    # 先默认用qwen2进行回答，如果超过5次都请求失败，就自动切换qwen2.5
+    qwen2_model_name: "qwen-max"
+    qwen2.5_model_name: "qwen-max"
+    temperature: 0.0
+    api_key: "sk-ws-H.RPDILHL.LVS2.MEUCIEkCefUAReiqcdt_YkQdSaiGnpBdA6oJMVwC9tEMvKDqAiEA8loQuKD0GJ5PZfAZfNxXdaSXZJ8wRqt6P0-8rvd0YRg"
+    base_url: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+  kimi:
+    model_name: "kimi-k2.5"
+    temperature: 0.3
+    api_key: "sk-ws-H.RPDILHL.LVS2.MEUCIEkCefUAReiqcdt_YkQdSaiGnpBdA6oJMVwC9tEMvKDqAiEA8loQuKD0GJ5PZfAZfNxXdaSXZJ8wRqt6P0-8rvd0YRg"
+    base_url: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+
+
+
+
+# ko4csg_hci：model_choose参数选择。这里是可供选择的问答模型。
+# 默认为Auto，自行根据难度判断使用DeepSeekV3还是DeepSeekR1
+choose_qa_model:
+  Auto
+  Qwen
+  DeepSeekV3
+  DeepSeekR1
+  Kimi
+  QwQ
+  Spark
+  ZhipuAI
+
+# 问答模型的api配置
+qa_models:
+  qwen:
+    #model_choose参数选择里面的Qwen，DeepSeekV3，DeepSeekR1，QwQ统一配置
+    Qwen: "qwen-max"
+    DeepSeekV3: "deepseek-v4.1-flash"
+    DeepSeekR1: "deepseek-v4.1-flash"
+    # qwq-plus 已于 2026-10-10 在百炼下线，官方替代为 qwen3.7-plus（混合思考模型，
+    # 需在 extra_body 中显式开启 enable_thinking 才会返回 reasoning_content）。
+    QwQ: "qwen3.7-plus"
+    qwenMax: "qwen3-max"
+    temperature: 0.1
+    api_key: "sk-ws-H.RPDILHL.LVS2.MEUCIEkCefUAReiqcdt_YkQdSaiGnpBdA6oJMVwC9tEMvKDqAiEA8loQuKD0GJ5PZfAZfNxXdaSXZJ8wRqt6P0-8rvd0YRg"
+#    api_key: "sk-991d31d4f10641d1ba762cc8f04457ac"
+    base_url: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+  spark:
+    model_name: 'generalv3.5'
+    api_keys: "BrGXEHWLIQBUNToAmuUd:WbOwtnULadiKCFQlebUx"
+    gpt_url: 'https://spark-api-open.xf-yun.com/v1'
+    appid: "9947c2c7"
+    api_secret: "NzAyZWNiMTRiYjliNTY2OTQxOTYyMDJk"
+    domain: "generalv3.5"
+  zhipuai:
+    model_name: "glm-4.5-flash"
+    api_keys: "5ef0e78e522044efae31b44ce60f5999.UrUaP6hWNDMcz0wE"
+    base_url: "https://open.bigmodel.cn/api/paas/v4"
+    model: "glm-4.5-flash"
+    temperature: 0.6
+    top_p: 0.7
+    max_tokens: 4096
+  kimi:
+    model_name: "kimi-k2.5"
+    temperature: 0.1
+    api_key: "sk-ws-H.RPDILHL.LVS2.MEUCIEkCefUAReiqcdt_YkQdSaiGnpBdA6oJMVwC9tEMvKDqAiEA8loQuKD0GJ5PZfAZfNxXdaSXZJ8wRqt6P0-8rvd0YRg"
+    base_url: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+
+
+# ko4csg_hci_localglm本地模型问答和中间流程使用模型配置,非流式。
+local_model:
+  url: "http://114.213.232.140:26389"
+
+
+#向量模型配置。可以在下面选择，来替换这里的配置。
+embedding_models:
+  embedding_model_name: "text-embedding-v3"
+  api_key: "sk-ws-H.RPDILHL.LVS2.MEUCIEkCefUAReiqcdt_YkQdSaiGnpBdA6oJMVwC9tEMvKDqAiEA8loQuKD0GJ5PZfAZfNxXdaSXZJ8wRqt6P0-8rvd0YRg"
+  base_url: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+
+#向量模型配置选择：
+Qwen:
+  embedding_model_name: "text-embedding-v3"
+  api_key: "sk-ws-H.RPDILHL.LVS2.MEUCIEkCefUAReiqcdt_YkQdSaiGnpBdA6oJMVwC9tEMvKDqAiEA8loQuKD0GJ5PZfAZfNxXdaSXZJ8wRqt6P0-8rvd0YRg"
+  base_url: "https://dashscope.aliyuncs.com/compatible-mode/v1"
+local:
+  embedding_model_name: "bge-m3"
+  api_key: "banwa"
+  base_url: "http://222.195.5.76:9099/v1"
+
+# 文件解析接口配置：
+ZhipuAI:
+  api_key: "sk-65bbd9278a36491ba56247ac885d1458"
+  base_url: "https://open.bigmodel.cn/api/paas/v4"
+
+yxyc_data_list:
+  - 35kV整流柜BC线电压
+  - 35kV整流柜CA线电压
+  - 断路器气室压力
+  - 母线气室压力
+
+
+yxyc_entity_list_huanjing:
+  - 控制室温度
+  - 控制室湿度
+  - 高压室（地下站）
+  - 高压室（地上站）
+  - 1#整流变压器室
+  - 2#整流变压器室
+  - 再生能馈室
+  - 主所二次设备室
+  - 400V开关室
+  - SVG装置室
+  - 1#主变压器室
+  - 2#主变压器室
+  - 110kV GIS开关室
+  - 电抗器室
+  - 蓄电池室
+  - 电缆夹层温度
+  - 电缆夹层温度温度
+
+yxyc_entity_list_dianzu:
+  - 电池组单体内阻
+  - 电池内阻
+  - PT气室SF6压力
+  - 断路器气室SF6压力
+  - 刀闸气室SF6压力
+  - 电缆气室SF6压力
+  - 避雷器气室SF6压力
+  - PT气室SF6压力
+  - 断路器气室SF6压力
+  - 套管气室SF6压力
+  - 刀闸气室SF6压力
+  - 过渡气室SF6压力
+  - 电缆气室SF6压力
+  - 避雷器气室SF6压力
+  - 开关柜断路器气室压力
+  - 开关柜断路器气室压力
+  - 直流母线正对地电阻
+  - 直流母线负对地电阻
+  - 动作次数
+
+yxyc_entity_list_dianliu:
+  - 101A相/B相/C相电流
+  - 102A相/B相/C相电流
+  - 311A相/B相/C相电流
+  - 31TA相/B相/C相电流
+  - 31CA相/B相/C相电流
+  - 1SVG本体 110kV A相/B相/C相电流有效值
+  - 1#SVG连接变测控装置 A相/B相/C相测量电流
+  - 1SVG本体 SVG 10kV侧A相/B相/C相电流有效值
+  - 35kVⅠ母避雷器在线监测 A相/B相/C相/D相泄漏电流
+  - 304A(35kV 1#配电变) A相/B相/C相电流
+  - 309A(35kV 能馈变)  A相/B相/C相电流
+  - 306A(35kV 1#整流变)  A相/B相/C相电流
+  - 201(1500V 1#进线柜) 进线电流
+  - 211(1500V 1#馈线柜) 馈线电流
+  - 219(1500V 能馈柜) 馈线电流
+  - 负极柜 整流器框架电流
+  - 负极柜 直流柜框架电流
+  - 负极柜 再生装置框架电流
+  - 轨电位 轨对地电流
+  - 再生能馈装置 交流输出A相/B相/C相电流
+  - 1#单向导通 电流
+  - 1#整流器 直流电流
+  - 801(400V1#进线) A相/B相/C相电流
+  - 803(400V母联) A相/B相/C相电流
+  - 交直流屏 蓄电池组电流
+  - 交直流屏 交流屏母线A相/B相/C相电流
+  - 交直流屏 直流母线电流
+  - 交直流一体化电源 整流器1输出电流
+  - 交直流一体化电源 电池组1电流
+  - 交直流一体化电源 整流器2输出电流
+  - 交直流一体化电源 电池组2电流
+  - 交直流一体化电源 1号UPS输出电流
+  - 交直流一体化电源 2号UPS输出电流
+  - 交直流一体化电源 1段通信电源输出电流
+  - 交直流一体化电源 2段通信电源输出电流
+  - 交直流一体化电源 站用电I段母线A相电流
+  - 交直流一体化电源 站用电I段母线B相电流
+  - 交直流一体化电源 站用电I段母线C相电流
+  - 交直流一体化电源 站用电II段母线A相电流
+  - 交直流一体化电源 站用电II段母线B相电流
+  - 交直流一体化电源 站用电II段母线C相电流
+
+yxyc_entity_list_dianya:
+  - 101(1#主变高压侧测控) A相电压
+  - 101(1#主变高压侧测控) B相电压
+  - 101(1#主变高压侧测控) C相电压
+  - 101(1#主变高压侧测控) AB线电压
+  - 101(1#主变高压侧测控) BC线电压
+  - 101(1#主变高压侧测控) CA线电压
+  - 101(1#主变高压侧测控)C相电压
+  - 101(1#主变高压侧测控)AB线电压
+  - 101(1#主变高压侧测控)BC线电压
+  - 101(1#主变高压侧测控)CA线电压
+  - 101(1#主变高压侧测控)A相电压
+  - 101(1#主变高压侧测控)B相电压
+  - 35kV Ⅰ母测控A相电压
+  - 35kV Ⅰ母测控B相电压
+  - 35kV Ⅰ母测控 C相电压
+  - 35kV Ⅰ母测控AB线电压
+  - 35kV Ⅰ母测控 BC线电压
+  - 35kV Ⅰ母测控CA线电压
+  - 35kV Ⅰ母测控零序电压3U0
+  - 35kV Ⅰ母测控C相电压
+  - 35kV Ⅰ母测控BC线电压
+  - 301(1#主变低压侧测控) A相电压
+  - 301(1#主变低压侧测控) B相电压
+  - 301(1#主变低压侧测控) C相电压
+  - 301(1#主变低压侧测控) AB线电压
+  - 301(1#主变低压侧测控) BC线电压
+  - 301(1#主变低压侧测控) CA线电压
+  - 311出线柜保护测控 A相电压
+  - 311出线柜保护测控 B相电压
+  - 311出线柜保护测控 C相电压
+  - 311出线柜保护测控 AB线电压
+  - 311出线柜保护测控 BC线电压
+  - 311出线柜保护测控 CA线电压
+  - 31T出线柜保护测控（1#站用变） A相电压
+  - 31T出线柜保护测控（1#站用变）B相电压
+  - 31T出线柜保护测控（1#站用变） C相电压
+  - 31T出线柜保护测控（1#站用变） AB线电压
+  - 31T出线柜保护测控（1#站用变） BC线电压
+  - 31T出线柜保护测控（1#站用变） CA线电压
+  - 31T出线柜保护测控（1#站用变） B相电压
+  - 300母联柜（含提升柜）保护测控 A相电压
+  - 300母联柜（含提升柜）保护测控 B相电压
+  - 300母联柜（含提升柜）保护测控 C相电压
+  - 300母联柜（含提升柜）保护测控 B 相电压
+  - 300母联柜（含提升柜）保护测控 C 相电压
+  - 31C出线柜保护测控（1#SVG） A相电压
+  - 31C出线柜保护测控（1#SVG） B相电压
+  - 31C出线柜保护测控（1#SVG） C相电压
+  - 31C出线柜保护测控（1#SVG） AB线电压
+  - 31C出线柜保护测控（1#SVG） BC线电压
+  - 31C出线柜保护测控（1#SVG） CA线电压
+  - 31L出线柜保护测控（1#电抗器） A相电压
+  - 31L出线柜保护测控（1#电抗器） B相电压
+  - 31L出线柜保护测控（1#电抗器） C相电压
+  - 31L出线柜保护测控（1#电抗器） AB线电压
+  - 31L出线柜保护测控（1#电抗器） BC线电压
+  - 31L出线柜保护测控（1#电抗器） CA线电压
+  - 1SVG本体 110kV A相电压有效值
+  - 1SVG本体 110kV B相电压有效值
+  - 1SVG本体 110kV C相电压有效值
+  - 1SVG本体 SVG 10kV侧A相电压有效值
+  - 1SVG本体 SVG 10kV侧B相电压有效值
+  - 1SVG本体 SVG 10kV侧C相电压有效值
+  - 1#SVG变压器保护测控 A相电压
+  - 1#SVG变压器保护测控 B相电压
+  - 1#SVG变压器保护测控 C相电压
+  - 1#SVG变压器保护测控 AB线电压
+  - 1#SVG变压器保护测控 BC线电压
+  - 1#SVG变压器保护测控 CA线电压
+  - 301A(35kV 1#进线后备) A相电压
+  - 301A(35kV 1#进线后备) B相电压
+  - 301A(35kV 1#进线后备) C相电压
+  - 301A(35kV 1#进线后备) AB线电压
+  - 301A(35kV 1#进线后备) BC线电压
+  - 301A(35kV 1#进线后备) CA线电压
+  - 304A(35kV 1#配电变) A相电压
+  - 304A(35kV 1#配电变) B相电压
+  - 304A(35kV 1#配电变) C相电压
+  - 304A(35kV 1#配电变) AB线电压
+  - 304A(35kV 1#配电变) BC线电压
+  - 304A(35kV 1#配电变) CA线电压
+  - 306A(35kV 1#整流变) A相电压
+  - 306A(35kV 1#整流变) B相电压
+  - 306A(35kV 1#整流变) C相电压
+  - 306A(35kV 1#整流变) AB线电压
+  - 306A(35kV 1#整流变) BC线电压
+  - 306A(35kV 1#整流变) CA线电压
+  - 201(1500V 1#进线柜)母线电压
+  - 211(1500V 1#馈线柜)馈线电压
+  - 负极柜直流柜框架电压
+  - 轨电位1轨对地电压
+  - 再生能馈装置直流电压
+  - 再生能馈装置交流输出A相电压
+  - 再生能馈装置交流输出B相电压
+  - 再生能馈装置交流输出C相电压
+  - 再生能馈装置交流输出AB线电压
+  - 再生能馈装置交流输出BC线电压
+  - 再生能馈装置交流输出CA线电压
+  - 1#单向导通电压
+  - 1#响应式钢轨导通电压
+  - 1#整流器交流电压
+  - 1#整流器直流电压
+  - 交直流屏直流控制母线电压
+  - 交直流屏蓄电池组电压
+  - 交直流屏直流合闸母线电压
+  - 交直流屏直流充电屏AB线电压
+  - 交直流屏直流充电屏BC线电压
+  - 交直流屏直流充电屏CA线电压
+  - 交直流屏直流母线负对地电压
+  - 交直流屏直流母线正对地电压
+  - 交直流屏交流窜入直流电压
+  - 交直流屏1#电池电压
+  - 交直流屏交流屏ATS I路进线A相电压
+  - 交直流屏交流屏ATS I路进线B相电压
+  - 交直流屏交流屏ATS I路进线C相电压
+  - 交直流屏交流屏母线A相电压
+  - 交直流屏交流屏母线B相电压
+  - 交直流屏交流屏母线C相电压
+  - 801(400V1#进线)AB线电压
+  - 801(400V1#进线)BC线电压
+  - 801(400V1#进线)CA线电压
+  - 交直流一体化电源 电池组1单体1电压
+  - 交直流一体化电源 整流器1输出电压
+  - 交直流一体化电源 蓄电池组电压
+  - 交直流一体化电源 1段直流母线电压
+  - 交直流一体化电源 整流器1交流AB线电压
+  - 交直流一体化电源 整流器1交流BC线电压
+  - 交直流一体化电源 整流器1交流CA线电压
+  - 交直流一体化电源 1段直流母线负对地电压
+  - 交直流一体化电源 1段直流母线正对地电压
+  - 交直流一体化电源 1号UPS输出电压
+  - 交直流一体化电源 1段通信电源输出电压
+  - 交直流一体化电源 站用电I段母线AB线电压
+  - 交直流一体化电源 站用电I段母线BC线电压
+
+
+yxyc_entity_list_wendu:
+  - 温控器A相绕组温度
+  - 温控器B相绕组温度
+  - 温控器C相绕组温度
+  - 温控器铁芯温度
+  - 再生能馈装置能馈变压器A相绕组温度
+  - 再生能馈装置能馈变压器B相绕组温度
+  - 再生能馈装置能馈变压器C相绕组温度
+  - 再生能馈装置能馈变压器铁芯温度
+  - 模块温度
+  - 1#整流器柜内温度
+  - 二极管温度
+  - 交直流屏直流屏内部温度
+  - 交直流屏电池温度
+  - 1#SVG本体单元温度
+  - 1#SVG本体 阀组进口温度
+  - 1#SVG本体 阀组出口温度
+  - 1#主变本体测控 油温1
+  - 1#主变本体测控 油温2
+  - 1#主变本体测控 绕组温度
+  - 开关柜A相电缆头温度
+  - 开关柜 B相电缆头温度
+  - 开关柜C相电缆头温度
+  - 开关柜 A相电缆头温度
+  - 开关柜 C相电缆头温度
+  - 开关柜B相电缆头温度
+  - 动力变压器 A相电缆头温度
+  - 动力变压器 B相电缆头温度
+  - 动力变压器 C相电缆头温度
+  - 整流变压器 A相电缆头温度
+  - 整流变压器 B相电缆头温度
+  - 整流变压器 C相电缆头温度
+  - 再生能馈变压器 A相电缆头温度
+  - 再生能馈变压器 B相电缆头温度
+  - 再生能馈变压器 C相电缆头温度
+
+yxyc_entity_list_gonglvdiandu:
+  - 主变高压侧测控有功功率
+  - 主变低压测控有功功率
+  - 保护测控有功功率
+  - 出线柜保护测控有功功率
+  - SVG连接变测控装置有功功率
+  - SVG本体110kV有功功率
+  - 有功功率
+  - 301B(35kV 2#进线后备)有功功率
+  - 302A(35kV 1#出线后备)有功功率
+  - 302B(35kV 2#出线后备)有功功率
+  - 302E(35kV 3#出线后备)有功功率
+  - 302F(35kV 4#出线后备)有功功率
+  - 开闭所302AK(35kV 1#出线后备)有功功率
+  - 开闭所302BK(35kV 2#出线后备)有功功率
+  - 开闭所302EK(35kV 3#出线后备)有功功率
+  - 开闭所302GK(35kV 5#出线后备)有功功率
+  - 开闭所302FK(35kV 4#出线后备)有功功率
+  - 开闭所302HK(35kV 6#出线后备)有功功率
+  - 母联柜有功功率
+  - 配电变有功功率
+  - 整流变有功功率
+  - 能馈变有功功率
+  - 表计有功功率
+  - 主变高压侧测控无功功率
+  - 主变低压测控无功功率
+  - 保护测控无功功率
+  - 出线柜保护测控无功功率
+  - SVG连接变测控装置无功功率
+  - SVG本体110kV无功功率
+  - 301A(35kV 1#进线后备)无功功率
+  - 301B(35kV 2#进线后备)无功功率
+  - 302A(35kV 1#出线后备)无功功率
+  - 302B(35kV 2#出线后备)无功功率
+  - 302E(35kV 3#出线后备)无功功率
+  - 302F(35kV 4#出线后备)无功功率
+  - 开闭所302AK(35kV 1#出线后备)无功功率
+  - 开闭所302BK(35kV 2#出线后备)无功功率
+  - 开闭所302GK(35kV 5#出线后备)无功功率
+  - 开闭所302FK(35kV 4#出线后备)无功功率
+  - 开闭所302HK(35kV 6#出线后备)无功功率
+  - 母联柜无功功率
+  - 配电变无功功率
+  - 整流变无功功率
+  - 能馈变无功功率
+  - 表计无功功率
+  - SVG连接变测控装置视在功率
+  - 表计视在功率
+  - 主变高压侧测控功率因数
+  - 主变低压测控功率因数
+  - 保护测控功率因数
+  - 出线柜保护测控功率因数
+  - SVG连接变测控装置功率因数
+  - SVG本体110kV功率因数
+  - 301A(35kV 1#进线后备)功率因数
+  - 301B(35kV 2#进线后备)功率因数
+  - 302A(35kV 1#出线后备)功率因数
+  - 302B(35kV 2#出线后备)功率因数
+  - 302E(35kV 3#出线后备)功率因数
+  - 302F(35kV 4#出线后备)功率因数
+  - 开闭所302AK(35kV 1#出线后备)功率因数
+  - 开闭所302BK(35kV 2#出线后备)功率因数
+  - 开闭所302EK(35kV 3#出线后备)功率因数
+  - 开闭所302GK(35kV 5#出线后备)功率因数
+  - 开闭所302FK(35kV 4#出线后备)功率因数
+  - 开闭所302HK(35kV 6#出线后备)功率因数
+  - 母联柜功率因数
+  - 配电变功率因数
+  - 整流变功率因数
+  - 能馈变功率因数
+  - 表计功率因数
+  - 表计正向有功电度
+  - 表计正向无功电度
+  - 表计反向有功电度
+  - 表计反向无功电度
+  - 电度表正向有功电度
+  - 电度表正向无功电度
+  - 电度表反向有功电度
+  - 电度表反向无功电度
